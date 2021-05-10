@@ -1,8 +1,13 @@
 function Main() {
     return (
-        <div>
-
-        </div>
+        <>
+            <div>
+                <a href="/create">Создать Note</a>
+            </div>
+            <div>
+                <a href="/note">Смотреть Note</a>
+            </div>
+        </>
     );
 }
 

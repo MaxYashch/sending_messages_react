@@ -1,9 +1,7 @@
-function Header() {
-    return (
-        <div>
+import { NavLink } from "react-router-dom";
 
-        </div>
-    );
+function Header() {
+    return <div></div>;
 }
 
 export default Header;
