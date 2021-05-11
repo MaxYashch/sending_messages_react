@@ -1,55 +1,91 @@
-import React from 'react';
-import { useState } from 'react';
-import env from '../env.json';
+import React from "react";
+import { useState } from "react";
+import env from "../env.json";
 
 function Create() {
-
-    const [url, setUrl] = useState('');
-    const [lineClass, setLineClass] = useState('hide'); // скрываем
-    const [formClass, setFormClass] = useState(''); // скрываем
+    const [formClass, setFormClass] = useState();
+    const [lineClass, setLineClass] = useState("hide");
+    const [url, setUrl] = useState("");
 
     let sendData = (obj) => {
-        setFormClass('hide');
-        setLineClass('');
+        setFormClass("hide");
+        setLineClass("");
         fetch(env.urlBackend, {
-            method: 'POST',
+            method: "POST", // *GET, POST, PUT, DELETE, etc.
             headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
+                "Content-Type": "application/x-www-form-urlencoded",
             },
-            body: JSON.stringify(obj)
+            body: JSON.stringify(obj),
         })
-            .then( response => response.json())
-            .then(response => {
+            .then((response) => response.json())
+            .then((response) => {
                 console.log(response);
+                // setText(response);
                 if (response.result) {
-                    setUrl(env.url+'/'+response.url);
+                    setUrl(env.url + response.url);
                 }
-            })
-    }
+            });
+    };
 
     let loadDataFromForm = (event) => {
         event.preventDefault();
         let note = event.target.elements.note.value;
         note = note.trim();
-        if (note === '') {
-            alert('Заполните поля');
+        if (note === "") {
+            alert("Fill fields");
             return false;
         }
-        sendData({"note" : note});
-    }
+        sendData({ note: note });
+    };
 
     return (
-        <div>
-            <form onSubmit={loadDataFromForm} className={formClass}>
-                <label htmlFor="">Введите заметку</label>
-                <textarea name="note" id="note" defaultValue="Test"></textarea>
-                <button type="submit">Создать</button>
-            </form>
-            <div className={lineClass}>
-                <div>{url}</div>
-                <div><button onClick={function(){window.location.reload()}}>Cоздать новую заметку</button></div>
+        <div className="row">
+            <div className="col-12">
+                <div className="text">
+                    <form
+                        action=""
+                        onSubmit={loadDataFromForm}
+                        className={formClass}
+                    >
+                        <div className="form-group">
+                            <label htmlFor="note">Enter note</label>
+                            <textarea
+                                name="note"
+                                className="form-control"
+                                defaultValue="Test note system"
+                                id="note"
+                            ></textarea>
+                            <p>
+                                <b>Attention!</b> Max note length 1000 symbols.
+                            </p>
+                        </div>
+                        <div className="form-group text-right">
+                            <button type="submit" className="btn btn-primary">
+                                Create
+                            </button>
+                        </div>
+                    </form>
+                    <div className={lineClass}>
+                        <div className="alert alert-primary" role="alert">
+                            {url}
+                        </div>
+                        <p>
+                            Copy URL and send to addresser. Attention! You can
+                            look at the note only once!
+                        </p>
+                        <div className="text-right">
+                            <button
+                                onClick={function () {
+                                    window.location.reload();
+                                }}
+                                className="btn btn-primary"
+                            >
+                                Create one more note
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
-
         </div>
     );
 }

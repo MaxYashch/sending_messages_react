@@ -1,4 +1,4 @@
-import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Link, NavLink } from 'react-router-dom';
 import Create from './components/Create';
 import Main from './components/Main';
 import About from './components/About';
@@ -9,20 +9,26 @@ import Error from './components/Error';
 
 function App() {
   return (
-    <div className="main">
+    <>
+      <div className="main">
       <Router>
         <Header></Header>
-        <Switch>
-          <Route exact path="/" component={Main}/>
-          <Route path="/about" component={About}/>
-          <Route path="/create" component={Create}/>
-          <Route exact path="/note/" component={Note}/>
-          <Route exact path="/note/:noteURL" component={Note}/>
-          <Route component={Error}/>
-        </Switch>
-      </Router>
-      <Footer></Footer>
-    </div>
+            <div className="container">
+            <Switch>
+             
+              <Route exact path="/" component={Main} />
+              <Route path="/about" component={About} />
+              <Route path="/create" component={Create} />
+              <Route exact path="/note/" component={Note} />
+              <Route path="/note/:noteURL" component={Note} />
+              <Route component={Error} />
+            </Switch>
+          
+        </div>
+        </Router>
+      </div>
+      <Footer/>
+    </>
   );
 }
 
